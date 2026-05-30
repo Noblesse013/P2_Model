@@ -1,0 +1,62 @@
+# ============================================================
+# Multimodal Engine Health Grader — Master Config
+# ============================================================
+
+# ── Unimodal model paths ─────────────────────────────────────
+obd2:
+  model_dir: "E:/Thesis/Car engine health ob2 model"
+  checkpoint: "data/processed/best_model.pt"
+  scaler:     "data/processed/scaler.pkl"
+  meta:       "data/processed/meta.pkl"
+  config:     "config.yaml"
+
+audio:
+  model_dir:  "E:/Thesis/Car_Engine_audio_model(final)"
+  checkpoint: "experiments/results/msda_net_ordinal_ce_best.pt"
+  config:     "configs/config.yaml"
+
+# ── Fusion ────────────────────────────────────────────────────
+# Weights reflect unimodal performance:
+#   audio  → 96.71% test acc  (higher weight)
+#   obd2   → 93.3%  kfold acc (lower weight)
+fusion:
+  strategy: "weighted_average"   # weighted_average | confidence | equal
+  obd2_weight:  0.40
+  audio_weight: 0.60
+
+# ── OBD2 preprocessing ────────────────────────────────────────
+obd2_input:
+  window_size: 30          # timesteps fed to the model
+  feature_names:           # must match the order the model was trained on
+    - engine_rpm
+    - coolant_temp
+    - engine_load
+    - map_pressure
+    - intake_air_temp
+    - throttle_position
+    - vehicle_speed
+    - catalyst_temp
+
+# ── Fusion model architecture ─────────────────────────────────
+fusion_model:
+  obd2_dim:  256      # OBD2 encoder output dim (fixed by pretrained model)
+  audio_dim: 512      # Audio encoder output dim (fixed by pretrained model)
+  hidden:    256      # First MLP hidden layer width
+  dropout:   0.3
+
+# ── Fusion model training ─────────────────────────────────────
+fusion_training:
+  lr:            0.001
+  weight_decay:  0.0001
+  max_epochs:    60
+  batch_size:    256
+  patience:      10
+  warmup_epochs: 5
+  alpha:         0.5   # weight of WeightedKappa loss term
+
+# ── Output labels ─────────────────────────────────────────────
+grades:
+  0: {label: "Normal",   action: "No action required."}
+  1: {label: "Warning",  action: "Schedule preventive maintenance soon."}
+  2: {label: "Fault",    action: "Immediate maintenance required."}
+  3: {label: "Critical", action: "Stop engine immediately. Serious damage risk."}

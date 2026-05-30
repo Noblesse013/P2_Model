@@ -1,0 +1,26 @@
+[
+  {
+    "model": "OBD2-only",
+    "n": 13113,
+    "accuracy": 0.9986,
+    "macro_f1": 0.9929,
+    "kappa": 0.9987,
+    "mcc": 0.9978
+  },
+  {
+    "model": "Audio-only",
+    "n": 4805,
+    "accuracy": 0.9715,
+    "macro_f1": 0.9557,
+    "kappa": 0.8999,
+    "mcc": 0.9134
+  },
+  {
+    "model": "Fusion (MLP)",
+    "n": 13113,
+    "accuracy": 0.9994,
+    "macro_f1": 0.9996,
+    "kappa": 0.9995,
+    "mcc": 0.9991
+  }
+]
