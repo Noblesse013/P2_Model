@@ -1,0 +1,220 @@
+{
+  "obd2_only": {
+    "accuracy": 0.9986,
+    "quadratic_kappa": 0.9987,
+    "n_errors": 19,
+    "n_samples": 13113
+  },
+  "fusion_correct_proto": {
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "weighted_f1": 1.0,
+    "quadratic_kappa": 1.0,
+    "mcc": 1.0,
+    "n_errors": 0,
+    "n_samples": 13113,
+    "confusion_matrix": [
+      [
+        2736,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        5920,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        4264,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        193
+      ]
+    ]
+  },
+  "fusion_wrong_proto": {
+    "wrong_grade_0_Normal": {
+      "accuracy": 0.2086,
+      "macro_f1": 0.0863,
+      "weighted_f1": 0.072,
+      "quadratic_kappa": 0.0,
+      "mcc": 0.0,
+      "n_errors": 10377,
+      "n_samples": 13113,
+      "confusion_matrix": [
+        [
+          2736,
+          0,
+          0,
+          0
+        ],
+        [
+          5920,
+          0,
+          0,
+          0
+        ],
+        [
+          4264,
+          0,
+          0,
+          0
+        ],
+        [
+          193,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "wrong_grade_1_Warning": {
+      "accuracy": 0.4515,
+      "macro_f1": 0.1555,
+      "weighted_f1": 0.2808,
+      "quadratic_kappa": 0.0,
+      "mcc": 0.0,
+      "n_errors": 7193,
+      "n_samples": 13113,
+      "confusion_matrix": [
+        [
+          0,
+          2736,
+          0,
+          0
+        ],
+        [
+          0,
+          5920,
+          0,
+          0
+        ],
+        [
+          0,
+          4264,
+          0,
+          0
+        ],
+        [
+          0,
+          193,
+          0,
+          0
+        ]
+      ]
+    },
+    "wrong_grade_2_Fault": {
+      "accuracy": 0.5338,
+      "macro_f1": 0.3956,
+      "weighted_f1": 0.3981,
+      "quadratic_kappa": 0.6723,
+      "mcc": 0.5041,
+      "n_errors": 6113,
+      "n_samples": 13113,
+      "confusion_matrix": [
+        [
+          2736,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          5920,
+          0
+        ],
+        [
+          0,
+          0,
+          4264,
+          0
+        ],
+        [
+          0,
+          0,
+          193,
+          0
+        ]
+      ]
+    },
+    "wrong_grade_3_Critical": {
+      "accuracy": 0.0147,
+      "macro_f1": 0.0073,
+      "weighted_f1": 0.0004,
+      "quadratic_kappa": 0.0,
+      "mcc": 0.0,
+      "n_errors": 12920,
+      "n_samples": 13113,
+      "confusion_matrix": [
+        [
+          0,
+          0,
+          0,
+          2736
+        ],
+        [
+          0,
+          0,
+          0,
+          5920
+        ],
+        [
+          0,
+          0,
+          0,
+          4264
+        ],
+        [
+          0,
+          0,
+          0,
+          193
+        ]
+      ]
+    }
+  },
+  "fusion_random_audio": {
+    "accuracy": 0.27,
+    "macro_f1": 0.178,
+    "weighted_f1": 0.2032,
+    "quadratic_kappa": 0.0697,
+    "mcc": 0.0712,
+    "n_errors": 9573,
+    "n_samples": 13113,
+    "confusion_matrix": [
+      [
+        2531,
+        203,
+        0,
+        2
+      ],
+      [
+        4761,
+        499,
+        650,
+        10
+      ],
+      [
+        3399,
+        350,
+        509,
+        6
+      ],
+      [
+        157,
+        12,
+        23,
+        1
+      ]
+    ]
+  }
+}

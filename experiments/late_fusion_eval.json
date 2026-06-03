@@ -1,0 +1,430 @@
+{
+  "alpha_obd2": 0.5,
+  "alpha_audio": 0.5,
+  "obd2_only": {
+    "accuracy": 0.9986,
+    "macro_f1": 0.9929,
+    "weighted_f1": 0.9986,
+    "quadratic_kappa": 0.9987,
+    "mcc": 0.9978,
+    "n_errors": 19,
+    "n_samples": 13113,
+    "per_class": {
+      "Normal": {
+        "f1": 1.0,
+        "n": 2736
+      },
+      "Warning": {
+        "f1": 0.9993,
+        "n": 5920
+      },
+      "Fault": {
+        "f1": 0.9987,
+        "n": 4264
+      },
+      "Critical": {
+        "f1": 1.0,
+        "n": 193
+      }
+    },
+    "confusion_matrix": [
+      [
+        2736,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        5912,
+        8,
+        0
+      ],
+      [
+        0,
+        1,
+        4253,
+        10
+      ],
+      [
+        0,
+        0,
+        0,
+        193
+      ]
+    ]
+  },
+  "audio_only": {
+    "accuracy": 0.963,
+    "macro_f1": 0.9394,
+    "weighted_f1": 0.9634,
+    "quadratic_kappa": 0.8859,
+    "mcc": 0.8804,
+    "n_errors": 178,
+    "n_samples": 4805,
+    "per_class": {
+      "Normal": {
+        "f1": 0.9849,
+        "n": 3988
+      },
+      "Warning": {
+        "f1": 0.9231,
+        "n": 364
+      },
+      "Fault": {
+        "f1": 0.9921,
+        "n": 446
+      },
+      "Critical": {
+        "f1": 1.0,
+        "n": 7
+      }
+    },
+    "confusion_matrix": [
+      [
+        3869,
+        29,
+        90,
+        0
+      ],
+      [
+        52,
+        312,
+        0,
+        0
+      ],
+      [
+        2,
+        5,
+        439,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        7
+      ]
+    ]
+  },
+  "ensemble_obd2_test": {
+    "accuracy": 0.9986,
+    "macro_f1": 0.9929,
+    "weighted_f1": 0.9986,
+    "quadratic_kappa": 0.9987,
+    "mcc": 0.9978,
+    "n_errors": 19,
+    "n_samples": 13113,
+    "per_class": {
+      "Normal": {
+        "f1": 1.0,
+        "n": 2736
+      },
+      "Warning": {
+        "f1": 0.9993,
+        "n": 5920
+      },
+      "Fault": {
+        "f1": 0.9987,
+        "n": 4264
+      },
+      "Critical": {
+        "f1": 1.0,
+        "n": 193
+      }
+    },
+    "confusion_matrix": [
+      [
+        2736,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        5912,
+        8,
+        0
+      ],
+      [
+        0,
+        1,
+        4253,
+        10
+      ],
+      [
+        0,
+        0,
+        0,
+        193
+      ]
+    ]
+  },
+  "ensemble_audio_test": {
+    "accuracy": 0.963,
+    "macro_f1": 0.9394,
+    "weighted_f1": 0.9634,
+    "quadratic_kappa": 0.8859,
+    "mcc": 0.8804,
+    "n_errors": 178,
+    "n_samples": 4805,
+    "per_class": {
+      "Normal": {
+        "f1": 0.9849,
+        "n": 3988
+      },
+      "Warning": {
+        "f1": 0.9231,
+        "n": 364
+      },
+      "Fault": {
+        "f1": 0.9921,
+        "n": 446
+      },
+      "Critical": {
+        "f1": 1.0,
+        "n": 7
+      }
+    },
+    "confusion_matrix": [
+      [
+        3869,
+        29,
+        90,
+        0
+      ],
+      [
+        52,
+        312,
+        0,
+        0
+      ],
+      [
+        2,
+        5,
+        439,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        7
+      ]
+    ]
+  },
+  "mismatch_ablation": {
+    "wrong_prior_grade_0_Normal": {
+      "accuracy": 0.9957,
+      "macro_f1": 0.9948,
+      "weighted_f1": 0.9957,
+      "quadratic_kappa": 0.9893,
+      "mcc": 0.9934,
+      "n_errors": 56,
+      "n_samples": 13113,
+      "per_class": {
+        "Normal": {
+          "f1": 1.0,
+          "n": 2736
+        },
+        "Warning": {
+          "f1": 0.9985,
+          "n": 5920
+        },
+        "Fault": {
+          "f1": 0.9955,
+          "n": 4264
+        },
+        "Critical": {
+          "f1": 1.0,
+          "n": 193
+        }
+      },
+      "confusion_matrix": [
+        [
+          2736,
+          0,
+          0,
+          0
+        ],
+        [
+          18,
+          5902,
+          0,
+          0
+        ],
+        [
+          35,
+          1,
+          4226,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          193
+        ]
+      ]
+    },
+    "wrong_prior_grade_1_Warning": {
+      "accuracy": 0.9986,
+      "macro_f1": 0.9935,
+      "weighted_f1": 0.9986,
+      "quadratic_kappa": 0.9987,
+      "mcc": 0.9978,
+      "n_errors": 19,
+      "n_samples": 13113,
+      "per_class": {
+        "Normal": {
+          "f1": 1.0,
+          "n": 2736
+        },
+        "Warning": {
+          "f1": 0.9994,
+          "n": 5920
+        },
+        "Fault": {
+          "f1": 0.9986,
+          "n": 4264
+        },
+        "Critical": {
+          "f1": 1.0,
+          "n": 193
+        }
+      },
+      "confusion_matrix": [
+        [
+          2736,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          5913,
+          7,
+          0
+        ],
+        [
+          0,
+          3,
+          4252,
+          9
+        ],
+        [
+          0,
+          0,
+          0,
+          193
+        ]
+      ]
+    },
+    "wrong_prior_grade_2_Fault": {
+      "accuracy": 0.9986,
+      "macro_f1": 0.9935,
+      "weighted_f1": 0.9986,
+      "quadratic_kappa": 0.9987,
+      "mcc": 0.9978,
+      "n_errors": 19,
+      "n_samples": 13113,
+      "per_class": {
+        "Normal": {
+          "f1": 1.0,
+          "n": 2736
+        },
+        "Warning": {
+          "f1": 0.9992,
+          "n": 5920
+        },
+        "Fault": {
+          "f1": 0.9988,
+          "n": 4264
+        },
+        "Critical": {
+          "f1": 1.0,
+          "n": 193
+        }
+      },
+      "confusion_matrix": [
+        [
+          2736,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          5911,
+          9,
+          0
+        ],
+        [
+          0,
+          1,
+          4254,
+          9
+        ],
+        [
+          0,
+          0,
+          0,
+          193
+        ]
+      ]
+    },
+    "wrong_prior_grade_3_Critical": {
+      "accuracy": 0.8247,
+      "macro_f1": 0.726,
+      "weighted_f1": 0.8812,
+      "quadratic_kappa": 0.6136,
+      "mcc": 0.7906,
+      "n_errors": 2299,
+      "n_samples": 13113,
+      "per_class": {
+        "Normal": {
+          "f1": 1.0,
+          "n": 2736
+        },
+        "Warning": {
+          "f1": 0.7765,
+          "n": 5920
+        },
+        "Fault": {
+          "f1": 0.9838,
+          "n": 4264
+        },
+        "Critical": {
+          "f1": 1.0,
+          "n": 193
+        }
+      },
+      "confusion_matrix": [
+        [
+          2736,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          3757,
+          0,
+          2163
+        ],
+        [
+          0,
+          0,
+          4128,
+          136
+        ],
+        [
+          0,
+          0,
+          0,
+          193
+        ]
+      ]
+    }
+  }
+}
