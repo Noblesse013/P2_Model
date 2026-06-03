@@ -1,0 +1,103 @@
+data:
+  raw_dir: data/raw
+  processed_dir: data/processed
+
+  # Dataset type: "classified" uses OBD-II Driving Data - Classified.csv
+  dataset_type: classified
+
+  classified_dataset:
+    filename: "OBD-II Driving Data - Classified.csv"
+    encoding: "latin-1"
+
+    # ---------------------------------------------------------------
+    # Training features (8 operational monitoring signals).
+    # These are deliberately EXCLUDED from severity scoring to prevent
+    # label-feature overlap (the main source of result inflation).
+    # ---------------------------------------------------------------
+    feature_indices: [6, 2, 1, 5, 9, 10, 7, 20]
+    feature_names:
+      - engine_rpm        # Col 6:  RPM del motor
+      - coolant_temp      # Col 2:  Coolant temperature
+      - engine_load       # Col 1:  Calculated engine load
+      - map_pressure      # Col 5:  Manifold absolute pressure
+      - intake_air_temp   # Col 9:  Intake air temperature
+      - throttle_position # Col 10: Absolute throttle position
+      - vehicle_speed     # Col 7:  Vehicle speed km/h
+      - catalyst_temp     # Col 20: Catalyst temperature
+
+    # ---------------------------------------------------------------
+    # Severity scoring features (3 diagnostic signals).
+    # Used ONLY to assign Warning/Faulty/Critical labels within Label=1.
+    # Never included in the training feature matrix.
+    # ---------------------------------------------------------------
+    severity_feature_indices: [11, 4, 8]
+    severity_feature_names:
+      - lambda_voltage    # Col 11: O2 sensor voltage (health indicator)
+      - long_fuel_trim    # Col 4:  Long-term fuel trim (ECU adaptation)
+      - timing_advance    # Col 8:  Ignition timing advance
+
+    label_col: "Label"
+    driver_col: "Conductor_ID"
+    # Driver 3 is the held-out test driver (never seen during training)
+    test_driver_id: 3
+
+  # Feature list used by all downstream modules (augment, train, evaluate, explain)
+  feature_columns:
+    - engine_rpm
+    - coolant_temp
+    - engine_load
+    - map_pressure
+    - intake_air_temp
+    - throttle_position
+    - vehicle_speed
+    - catalyst_temp
+
+  # ---------------------------------------------------------------
+  # Composite severity scoring within Label=1
+  # Score per dimension: 0 (normal), 1 (moderate), 2 (severe)
+  # Total score 0-1 -> Warning | 2-3 -> Faulty | >=4 -> Critical
+  # ---------------------------------------------------------------
+  label_thresholds:
+    lambda_warning:    0.50
+    lambda_faulty:     0.10
+    ltft_faulty:       1.60
+    ltft_critical:     2.30
+    timing_faulty:    -5.0
+    timing_critical:  -15.0
+
+  # Legacy column_map (unused when dataset_type: classified)
+  column_map:
+    "Engine rpm":         rpm
+    "Lub oil pressure":   lub_oil_pressure
+    "Fuel pressure":      fuel_pressure
+    "Coolant pressure":   coolant_pressure
+    "lub oil temp":       lub_oil_temp
+    "Coolant temp":       coolant_temp
+    "Engine Condition":   raw_label
+
+preprocessing:
+  window_size: 30
+  stride: 15          # 50% overlap (was 5 = 83% overlap)
+  val_size: 0.15      # last 15% of each driver's rows -> validation
+  random_seed: 42
+
+model:
+  n_features: 8       # 8 operational features (down from 12)
+  n_classes: 4
+  cnn_channels: [64, 128]
+  cnn_kernel_sizes: [5, 3]
+  gru_hidden: 128
+  gru_layers: 2
+  dropout: 0.3
+
+training:
+  epochs: 60
+  batch_size: 128
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  patience: 10
+  checkpoint_path: data/processed/best_model.pt
+
+labels:
+  names: [Normal, Warning, Faulty, Critical]
+  indices: [0, 1, 2, 3]

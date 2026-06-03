@@ -1,0 +1,122 @@
+# ============================================================
+# Engine Health Grading System — Master Configuration
+# ============================================================
+
+project:
+  name: "engine_health_grading"
+  seed: 42
+  output_dir: "experiments/results"
+  log_dir: "experiments/logs"
+
+# ── Data ────────────────────────────────────────────────────
+data:
+  data_dir: "data"
+  train_csv: null          # optional; falls back to folder scan
+  test_csv: null
+  class_names: ["normal", "warning", "fault", "critical"]
+  num_classes: 4
+  sample_rate: 44100         # 44.1 kHz captures engine knock up to 22 kHz (Nyquist)
+  segment_duration: 3.0    # seconds per audio window
+  hop_duration: 1.0        # 67% overlap — maximises segments from limited recordings
+  val_split: 0.15
+  test_split: 0.15
+  num_workers: 4
+
+# ── Feature Extraction ──────────────────────────────────────
+features:
+  n_fft: 2048
+  hop_length: 1024          # at 44.1 kHz → same ~23 ms time resolution as before
+  n_mels: 128
+  f_min: 20.0               # captures combustion fundamental (~20 Hz at idle)
+  f_max: 16000.0            # captures valve noise and engine knock (6–15 kHz)
+  n_mfcc: 40
+  use_delta: true          # append delta & delta-delta MFCCs
+  normalize: true          # per-sample zero-mean unit-variance
+
+# ── Augmentation ────────────────────────────────────────────
+augmentation:
+  enabled: true
+  # time-domain
+  add_noise: true
+  noise_factor: 0.003        # real recordings already have ambient noise; keep synthetic low
+  time_stretch: false
+  stretch_range: [0.92, 1.08]
+  pitch_shift: false
+  pitch_semitones: 1
+  # spectrogram
+  spec_augment: true
+  freq_mask_param: 20      # max frequency bands to mask
+  time_mask_param: 40      # max time steps to mask
+  num_freq_masks: 2
+  num_time_masks: 2
+  # mixup
+  mixup: true
+  mixup_alpha: 0.4
+
+# ── Model ────────────────────────────────────────────────────
+model:
+  name: "msda_net"         # cnn_baseline | deep_cnn | resnet50 | efficientnet_b4 | msda_net | ensemble
+  input_channels: 1
+  num_classes: 4
+  ordinal: true            # use ordinal classification head
+
+  # CNN baseline
+  cnn_baseline:
+    base_channels: 32
+    num_blocks: 4
+    dropout: 0.4
+
+  # Deep CNN (VGG-style)
+  deep_cnn:
+    base_channels: 64
+    dropout: 0.5
+
+  # Transfer learning
+  transfer:
+    pretrained: true
+    freeze_backbone_epochs: 3
+    backbone_lr_multiplier: 0.1
+
+  # MSDA-Net (novel)
+  msda_net:
+    base_channels: 64
+    scales: [3, 7, 15]    # temporal kernel sizes for multi-scale branches
+    se_reduction: 16       # squeeze-excitation reduction ratio
+    num_attn_heads: 8
+    attn_dropout: 0.1
+    dropout: 0.4
+
+# ── Training ─────────────────────────────────────────────────
+training:
+  batch_size: 32
+  num_epochs: 100
+  optimizer: "adamw"       # adam | adamw | sgd
+  lr: 0.001
+  weight_decay: 0.0001
+  scheduler: "cosine_warmup"   # step | cosine | cosine_warmup
+  warmup_epochs: 5
+  loss: "ordinal_ce"           # ce | focal | ordinal_ce | label_smooth_ce
+  focal_gamma: 2.0
+  label_smooth: 0.1
+  early_stopping_patience: 15
+  grad_clip: 1.0
+  use_amp: true            # automatic mixed precision
+  class_weights: "balanced"    # null | balanced | manual
+
+# ── Evaluation ───────────────────────────────────────────────
+evaluation:
+  k_folds: 5
+  bootstrap_n: 1000
+  bootstrap_ci: 0.95
+  mcnemar_alpha: 0.05
+
+# ── Explainability ───────────────────────────────────────────
+explainability:
+  enabled: true
+  gradcam_layer: "auto"    # auto-detect last conv layer
+  num_samples: 20          # samples per class to visualize
+
+# ── MLflow ───────────────────────────────────────────────────
+mlflow:
+  tracking_uri: "experiments/mlruns"
+  experiment_name: "car_engine_health_grading"

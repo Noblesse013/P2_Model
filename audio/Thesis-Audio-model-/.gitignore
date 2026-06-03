@@ -1,0 +1,36 @@
+# Claude Code settings
+.claude/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Audio data (too large for GitHub — add via car_engine_prepare.py)
+data/normal/
+data/warning/
+data/fault/
+data/critical/
+data/.spec_cache/
+data_preparation/car_engine_raw/
+
+# Experiment outputs (model checkpoints, MLflow runs)
+experiments/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+venv/
+.venv/
